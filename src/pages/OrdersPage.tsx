@@ -195,7 +195,7 @@ function OrdersPage() {
     if (loading) {
         return (
             <section className="flex min-h-[60vh] flex-col items-center justify-center gap-4 bg-gray-50 px-4">
-                <LoaderCircle className="h-10 w-10 animate-spin text-primary" />
+                <LoaderCircle className="h-10 w-10 animate-spin text-orange-600" />
                 <p className="text-sm font-medium text-gray-500">
                     Loading your orders...
                 </p>
@@ -205,21 +205,23 @@ function OrdersPage() {
 
     if (error) {
         return (
-            <section className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
-                <AlertCircle className="h-12 w-12 text-red-500" />
+            <section className="flex min-h-[60vh] flex-col items-center justify-center bg-gray-50 px-4 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-50">
+                    <AlertCircle className="h-9 w-9 text-orange-600" />
+                </div>
 
                 <h1 className="mt-4 text-2xl font-bold text-gray-900">
                     Unable to load orders
                 </h1>
 
-                <p className="mt-2 max-w-md text-sm text-gray-500">
+                <p className="mt-2 max-w-md text-sm leading-6 text-gray-500">
                     {error}
                 </p>
 
                 <button
                     type="button"
                     onClick={() => window.location.reload()}
-                    className="mt-6 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+                    className="mt-6 rounded-xl bg-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-orange-900/10 transition duration-200 hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-orange-200"
                 >
                     Try Again
                 </button>
@@ -229,28 +231,35 @@ function OrdersPage() {
 
     return (
         <main className="min-h-screen bg-gray-50">
-            <section className="border-b border-orange-100 bg-orange-50/70">
-                <div className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            {/* Page header */}
+            <section className="border-b border-orange-100 bg-gradient-to-r from-orange-50 via-white to-amber-50">
+                <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <Link to="/" className="transition hover:text-primary">
+                        <Link
+                            to="/"
+                            className="transition-colors hover:text-orange-700"
+                        >
                             Home
                         </Link>
-                        <span>/</span>
-                        <span className="font-semibold text-primary">
+
+                        <span className="text-gray-300">/</span>
+
+                        <span className="font-semibold text-orange-700">
                             My Orders
                         </span>
                     </div>
 
                     <div className="mt-5 flex items-center gap-4">
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-sm">
+                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-orange-100 bg-white text-orange-600 shadow-sm">
                             <ShoppingBag className="h-7 w-7" />
                         </div>
 
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+                            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                                 My Orders
                             </h1>
-                            <p className="mt-1 text-sm text-gray-600">
+
+                            <p className="mt-1 text-sm text-gray-600 sm:text-base">
                                 View your purchases and order history.
                             </p>
                         </div>
@@ -258,11 +267,12 @@ function OrdersPage() {
                 </div>
             </section>
 
-            <section className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            {/* Orders content */}
+            <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
                 {orders.length === 0 ? (
-                    <div className="rounded-2xl border border-gray-100 bg-white px-6 py-16 text-center shadow-sm">
-                        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-50">
-                            <BookOpen className="h-10 w-10 text-primary" />
+                    <div className="rounded-2xl border border-orange-100 bg-white px-6 py-16 text-center shadow-sm">
+                        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-orange-500">
+                            <BookOpen className="h-10 w-10" />
                         </div>
 
                         <h2 className="mt-5 text-xl font-bold text-gray-900">
@@ -276,7 +286,7 @@ function OrdersPage() {
 
                         <Link
                             to="/store"
-                            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+                            className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-orange-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-orange-900/10 transition duration-200 hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-orange-200"
                         >
                             Explore Books
                             <ArrowRight className="h-4 w-4" />
@@ -289,6 +299,7 @@ function OrdersPage() {
                                 <h2 className="text-lg font-bold text-gray-900">
                                     Order History
                                 </h2>
+
                                 <p className="mt-1 text-sm text-gray-500">
                                     {orders.length}{" "}
                                     {orders.length === 1 ? "order" : "orders"}{" "}
@@ -298,7 +309,7 @@ function OrdersPage() {
 
                             <Link
                                 to="/store"
-                                className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:opacity-75"
+                                className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-orange-700 transition hover:text-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2"
                             >
                                 Continue Shopping
                                 <ArrowRight className="h-4 w-4" />
@@ -322,11 +333,12 @@ function OrdersPage() {
                                 return (
                                     <article
                                         key={order.id}
-                                        className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-200 hover:border-orange-200 hover:shadow-md"
+                                        className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-900/5"
                                     >
-                                        <div className="flex flex-col gap-4 border-b border-gray-100 bg-gray-50/70 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                                        {/* Order summary */}
+                                        <div className="flex flex-col gap-4 border-b border-orange-100 bg-gradient-to-r from-orange-50/70 to-white px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
                                             <div>
-                                                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                                <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
                                                     Order ID
                                                 </p>
 
@@ -336,7 +348,7 @@ function OrdersPage() {
                                                 </h3>
 
                                                 <p className="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                                                    <CalendarDays className="h-4 w-4 text-primary" />
+                                                    <CalendarDays className="h-4 w-4 text-orange-600" />
                                                     {formatDate(order.created_at)}
                                                 </p>
                                             </div>
@@ -353,13 +365,15 @@ function OrdersPage() {
                                                     <p className="text-xs text-gray-500">
                                                         Order Total
                                                     </p>
-                                                    <p className="mt-1 text-lg font-bold text-primary">
+
+                                                    <p className="mt-1 text-lg font-extrabold text-orange-700">
                                                         {formatPrice(order.total)}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
 
+                                        {/* Ordered items */}
                                         <div className="p-4 sm:p-6">
                                             {items.length === 0 ? (
                                                 <p className="text-sm text-gray-500">
@@ -374,9 +388,9 @@ function OrdersPage() {
                                                                 item.id ??
                                                                 `${order.id}-${item.book_id ?? index}`
                                                             }
-                                                            className="flex items-start gap-4"
+                                                            className="flex items-start gap-3 sm:gap-4"
                                                         >
-                                                            <div className="flex h-24 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-gray-100 bg-orange-50/60 p-2 sm:h-28 sm:w-24">
+                                                            <div className="flex h-24 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-orange-100 bg-orange-50/60 p-2 sm:h-28 sm:w-24">
                                                                 {item.image ? (
                                                                     <img
                                                                         src={item.image}
@@ -389,12 +403,12 @@ function OrdersPage() {
                                                                         className="h-full w-full object-contain"
                                                                     />
                                                                 ) : (
-                                                                    <BookOpen className="h-10 w-10 text-orange-200" />
+                                                                    <BookOpen className="h-10 w-10 text-orange-300" />
                                                                 )}
                                                             </div>
 
                                                             <div className="min-w-0 flex-1">
-                                                                <h4 className="line-clamp-2 font-bold leading-6 text-gray-900">
+                                                                <h4 className="line-clamp-2 font-bold leading-6 text-gray-900 transition-colors hover:text-orange-700">
                                                                     {item.title ??
                                                                         item.name ??
                                                                         "Book"}
@@ -415,6 +429,7 @@ function OrdersPage() {
                                                                 <p className="text-xs text-gray-500">
                                                                     Subtotal
                                                                 </p>
+
                                                                 <p className="mt-1 text-sm font-bold text-gray-900 sm:text-base">
                                                                     {formatPrice(
                                                                         item.subtotal,
@@ -426,20 +441,21 @@ function OrdersPage() {
                                                 </div>
                                             )}
 
-                                            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-4">
+                                            {/* Order footer */}
+                                            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-orange-100 pt-4">
                                                 <p className="text-sm text-gray-500">
                                                     Total items:{" "}
-                                                    <span className="font-semibold text-gray-800">
+                                                    <span className="font-bold text-gray-800">
                                                         {itemCount}
                                                     </span>
                                                 </p>
 
                                                 <Link
                                                     to={`/order-success?order_id=${encodeURIComponent(String(order.id))}`}
-                                                    className="inline-flex items-center gap-2 rounded-xl border border-primary px-4 py-2.5 text-sm font-semibold text-primary transition hover:bg-orange-50"
+                                                    className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-orange-900/10 transition duration-200 hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-orange-200"
                                                 >
                                                     View Order
-                                                    <ArrowRight className="h-4 w-4" />
+                                                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                                                 </Link>
                                             </div>
                                         </div>
@@ -450,10 +466,11 @@ function OrdersPage() {
                     </>
                 )}
 
+                {/* Back to store */}
                 <div className="mt-8">
                     <Link
                         to="/store"
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 transition hover:text-primary"
+                        className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-gray-600 transition-colors hover:text-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back to Store

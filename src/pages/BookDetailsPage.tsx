@@ -1,7 +1,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
     ArrowLeft,
     ArrowRight,
@@ -130,7 +130,6 @@ function SectionHeading({
 
 function BookDetailsPage() {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
 
     const [book, setBook] = useState<BookDetails | null>(null);
     const [books, setBooks] = useState<Book[]>([]);
@@ -261,14 +260,16 @@ function BookDetailsPage() {
                 quantity,
             });
 
+            window.dispatchEvent(new Event("cartUpdated"));
+
             setCartMessage("Book added to your cart successfully.");
-            navigate("/cart");
         } catch (err: unknown) {
             setCartError(getErrorMessage(err));
         } finally {
             setCartLoading(false);
         }
     }
+
 
     function handleReviewSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -961,7 +962,7 @@ function BookDetailsPage() {
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="author-title"
-                        className="relative my-auto w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+                        className="relative my-auto w-full max-w-7xl overflow-hidden rounded-2xl bg-white shadow-2xl"
                     >
                         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
                             <h2
@@ -986,7 +987,7 @@ function BookDetailsPage() {
                                     <img
                                         src={selectedAuthor.image}
                                         alt={selectedAuthor.name}
-                                        className="max-h-56 w-full rounded-lg object-contain"
+                                        className="max-h-72 w-full rounded-lg object-contain"
                                     />
                                 ) : (
                                     <UserRound className="h-20 w-20 text-orange-300" />

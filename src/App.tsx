@@ -7,6 +7,7 @@ import AboutPage from "./pages/AboutPage";
 import StorePage from "./pages/StorePage";
 import BookDetailsPage from "./pages/BookDetailsPage";
 import OrdersPage from "./pages/OrdersPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 import CartPage from "./pages/CartPage";
 import ContactPage from "./pages/ContactPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -32,6 +33,11 @@ function App() {
           <Route
             path="/orders"
             element={isLoggedIn ? <OrdersPage /> : <Navigate to="/" replace />}
+          />
+
+          <Route
+            path="/order-success"
+            element={isLoggedIn ? <OrderDetailsPage /> : <Navigate to="/" replace />}
           />
 
           <Route

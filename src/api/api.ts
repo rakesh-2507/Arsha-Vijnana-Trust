@@ -1,5 +1,4 @@
-const API_BASE_URL = "https://arshavijnana.sidpz.com/api";
-
+export const API_BASE_URL = "https://arshavijnana.sidpz.com/api";
 type QueryValue = string | number | boolean | null | undefined;
 
 interface RequestOptions extends Omit<RequestInit, "body"> {

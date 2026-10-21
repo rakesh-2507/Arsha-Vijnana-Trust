@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 
 import LoginModal from "../../components/auth/LoginModal";
@@ -18,7 +19,7 @@ function getAccessToken(): string | null {
 
 function Navbar() {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<AuthModal>(null);
 
@@ -27,6 +28,10 @@ function Navbar() {
   );
 
   const [cartCount, setCartCount] = useState(0);
+  const [cartGlowing, setCartGlowing] = useState(false);
+
+  const cartGlowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cartGlowFrame = useRef<number | null>(null);
 
   const refreshCartCount = useCallback(async () => {
     if (!getAccessToken()) {
@@ -40,10 +45,9 @@ function Navbar() {
       const count = cart.items.reduce((total, item) => {
         const quantity = Number(item.quantity ?? 0);
 
-        return total + (
-          Number.isFinite(quantity) && quantity > 0
-            ? quantity
-            : 0
+        return (
+          total +
+          (Number.isFinite(quantity) && quantity > 0 ? quantity : 0)
         );
       }, 0);
 
@@ -52,6 +56,22 @@ function Navbar() {
       console.error("Unable to fetch cart count:", error);
     }
   }, []);
+
+  const triggerCartGlow = useCallback(() => {
+    if (location.pathname === "/cart") return;
+
+    if (cartGlowTimer.current !== null) {
+      clearTimeout(cartGlowTimer.current);
+      cartGlowTimer.current = null;
+    }
+
+    if (cartGlowFrame.current !== null) {
+      cancelAnimationFrame(cartGlowFrame.current);
+      cartGlowFrame.current = null;
+    }
+
+    setCartGlowing(true);
+  }, [location.pathname]);
 
   useEffect(() => {
     const refreshAuth = () => {
@@ -68,9 +88,10 @@ function Navbar() {
 
     const handleCartUpdated = () => {
       void refreshCartCount();
+      triggerCartGlow();
     };
 
-void Promise.resolve().then(() => refreshCartCount());
+    void Promise.resolve().then(() => refreshCartCount());
 
     window.addEventListener("authChanged", refreshAuth);
     window.addEventListener("cartUpdated", handleCartUpdated);
@@ -80,14 +101,21 @@ void Promise.resolve().then(() => refreshCartCount());
       window.removeEventListener("authChanged", refreshAuth);
       window.removeEventListener("cartUpdated", handleCartUpdated);
       window.removeEventListener("storage", refreshAuth);
+
+      if (cartGlowTimer.current !== null) {
+        clearTimeout(cartGlowTimer.current);
+      }
+
+      if (cartGlowFrame.current !== null) {
+        cancelAnimationFrame(cartGlowFrame.current);
+      }
     };
-  }, [refreshCartCount]);
+  }, [refreshCartCount, triggerCartGlow]);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `rounded-lg px-3 py-2 text-sm font-medium transition ${
-      isActive
-        ? "bg-orange-50 text-orange-600"
-        : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"
+    `rounded-lg px-3 py-2 text-base tracking-widest font-medium transition ${isActive
+      ? "bg-orange-50 text-orange-700 text-lg"
+      : "text-gray-900 hover:bg-orange-50 hover:text-orange-600"
     }`;
 
   const openModal = (modal: AuthModal) => {
@@ -108,6 +136,7 @@ void Promise.resolve().then(() => refreshCartCount());
 
     setLoggedIn(false);
     setCartCount(0);
+    setCartGlowing(false);
     setMenuOpen(false);
     setActiveModal(null);
 
@@ -115,24 +144,27 @@ void Promise.resolve().then(() => refreshCartCount());
     navigate("/");
   };
 
-  const handleCartClick = () => {
-    setMenuOpen(false);
+const handleCartClick = () => {
+  setMenuOpen(false);
 
-    if (getAccessToken()) {
-      navigate("/cart");
-    } else {
-      setActiveModal("login");
-    }
-  };
+  if (getAccessToken()) {
+    setCartGlowing(false);
+    navigate("/cart");
+  } else {
+    setActiveModal("login");
+  }
+};
 
   const renderCartButton = (mobile = false) => (
     <button
       type="button"
       onClick={handleCartClick}
       aria-label={`Shopping cart, ${cartCount} items`}
-      className={`relative flex shrink-0 items-center justify-center rounded-full border border-orange-200 text-orange-600 transition hover:bg-orange-50 ${
-        mobile ? "h-10 w-10" : "h-11 w-11"
-      }`}
+      className={`relative flex shrink-0 items-center justify-center rounded-full border border-orange-200 text-orange-600 transition-all duration-300 hover:bg-orange-50 ${mobile ? "h-10 w-10" : "h-11 w-11"
+        } ${cartGlowing
+          ? "animate-cart-glow border-orange-500 bg-orange-50"
+          : ""
+        }`}
     >
       <ShoppingCart className="h-5 w-5" />
 
@@ -150,7 +182,6 @@ void Promise.resolve().then(() => refreshCartCount());
     <>
       <header className="sticky top-0 z-50 w-full border-b border-orange-100 bg-white/95 shadow-sm backdrop-blur-md">
         <nav className="mx-auto flex min-h-20 items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-
           <Link
             to="/"
             onClick={closeMobileMenu}
@@ -166,25 +197,25 @@ void Promise.resolve().then(() => refreshCartCount());
 
           <div className="hidden items-center gap-1 lg:flex">
             <NavLink to="/" end className={navLinkClass}>
-              Home
+              HOME
             </NavLink>
 
             <NavLink to="/about" className={navLinkClass}>
-              About Us
+              ABOUT US
             </NavLink>
 
             <NavLink to="/store" className={navLinkClass}>
-              Store
+              STORE
             </NavLink>
 
             {loggedIn && (
               <NavLink to="/orders" className={navLinkClass}>
-                Orders
+                ORDERS
               </NavLink>
             )}
 
             <NavLink to="/contact" className={navLinkClass}>
-              Contact
+              CONTACT
             </NavLink>
           </div>
 
@@ -334,7 +365,7 @@ void Promise.resolve().then(() => refreshCartCount());
                     <button
                       type="button"
                       onClick={() => openModal("login")}
-                      className="flex-1 rounded-full border border-orange-200 px-4 py-2.5 text-sm font-semibold text-orange-700 transition hover:bg-orange-50"
+                      className="flex-1 rounded-full border border-orange-200 px-4 py-2.5 text-center text-sm font-semibold text-orange-700 transition hover:bg-orange-50"
                     >
                       Login
                     </button>

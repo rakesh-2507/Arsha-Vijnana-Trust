@@ -955,10 +955,10 @@ useEffect(() => {
                                     className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-3.5 text-sm text-red-700"
                                 >
                                     <span className="font-semibold">
-                                        Please note:
+                                        Error Code : 500
                                     </span>
                                     <span className="min-w-0 flex-1 break-words">
-                                        {checkoutError}
+                                        {/* {checkoutError} */} Internal Server Error
                                     </span>
                                     <button
                                         type="button"
