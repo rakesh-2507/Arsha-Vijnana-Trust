@@ -74,7 +74,6 @@ function StorePage() {
     const [newArrival, setNewArrival] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Fetch the complete collection once.
     useEffect(() => {
         let cancelled = false;
 
@@ -106,7 +105,6 @@ function StorePage() {
         };
     }, []);
 
-    // Build unique categories from the available books.
     const categories = useMemo(
         () =>
             Array.from(
@@ -122,7 +120,6 @@ function StorePage() {
         [books]
     );
 
-    // Build a unique author list.
     const authors = useMemo(() => {
         const authorMap = new Map<string, Author>();
 
@@ -141,7 +138,6 @@ function StorePage() {
         );
     }, [books]);
 
-    // Apply category, author, and special filters, then sort.
     const filteredBooks = useMemo(() => {
         let result = books.filter((book) => {
             if (
@@ -262,7 +258,6 @@ function StorePage() {
 
     return (
         <main className="min-h-screen bg-white text-gray-800">
-            {/* Page heading */}
             <section className="border-b border-orange-100 bg-gradient-to-r from-orange-50 via-white to-amber-50">
                 <div className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 sm:py-14 lg:px-10">
                     <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-600 sm:text-sm">
@@ -303,7 +298,6 @@ function StorePage() {
 
             <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 sm:py-12 lg:px-10">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-10">
-                    {/* Filter sidebar */}
                     <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
                         <div className="mb-5 flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -327,7 +321,6 @@ function StorePage() {
                             )}
                         </div>
 
-                        {/* Categories */}
                         <div className="border-t border-gray-100 py-5">
                             <h3 className="mb-4 flex items-center justify-between text-xs font-extrabold uppercase tracking-wider text-gray-800">
                                 Category
@@ -368,7 +361,6 @@ function StorePage() {
                             </div>
                         </div>
 
-                        {/* Authors */}
                         <div className="border-t border-gray-100 py-5">
                             <h3 className="mb-4 flex items-center justify-between text-xs font-extrabold uppercase tracking-wider text-gray-800">
                                 Author
@@ -427,7 +419,6 @@ function StorePage() {
                             </div>
                         </div>
 
-                        {/* Special filters */}
                         <div className="border-t border-gray-100 py-5">
                             <h3 className="mb-4 text-xs font-extrabold uppercase tracking-wider text-gray-800">
                                 Special filters
@@ -476,9 +467,7 @@ function StorePage() {
                         </div>
                     </aside>
 
-                    {/* Book collection */}
                     <div className="min-w-0">
-                        {/* Result count and sort */}
                         <div className="mb-6 flex flex-col justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center">
                             <div>
                                 <h2 className="text-lg font-bold text-gray-900 sm:text-xl">
@@ -522,7 +511,6 @@ function StorePage() {
                             </label>
                         </div>
 
-                        {/* Loading state */}
                         {loading && (
                             <div className="flex min-h-80 flex-col items-center justify-center">
                                 <div
@@ -536,7 +524,6 @@ function StorePage() {
                             </div>
                         )}
 
-                        {/* Error state */}
                         {!loading && error && (
                             <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-red-100 bg-red-50/50 px-5 text-center">
                                 <AlertCircle
@@ -559,7 +546,6 @@ function StorePage() {
                             </div>
                         )}
 
-                        {/* Empty state */}
                         {!loading &&
                             !error &&
                             filteredBooks.length === 0 && (
@@ -584,7 +570,6 @@ function StorePage() {
                                 </div>
                             )}
 
-                        {/* Book cards */}
                         {!loading && !error && currentBooks.length > 0 && (
                             <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">
                                 {currentBooks.map((book) => (
@@ -674,7 +659,6 @@ function StorePage() {
                             </div>
                         )}
 
-                        {/* Pagination */}
                         {!loading &&
                             !error &&
                             filteredBooks.length > PAGE_SIZE && (

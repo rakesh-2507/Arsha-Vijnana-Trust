@@ -18,14 +18,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          {/* Public pages */}
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/store" element={<StorePage />} />
           <Route path="/store/:id" element={<BookDetailsPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
-          {/* Protected pages */}
           <Route
             path="/cart"
             element={isLoggedIn ? <CartPage /> : <Navigate to="/" replace />}
@@ -42,7 +40,6 @@ function App() {
           />
         </Route>
 
-        {/* 404 */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

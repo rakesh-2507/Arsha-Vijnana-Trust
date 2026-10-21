@@ -5,8 +5,6 @@ import {
     apiDelete,
 } from "./api";
 
-// ==================== TYPES ====================
-
 export interface CartItem {
     id: number | string;
     book_id: number;
@@ -46,8 +44,6 @@ interface ApiObject {
     [key: string]: unknown;
 }
 
-// ==================== HELPERS ====================
-
 function asObject(value: unknown): ApiObject {
     if (typeof value === "object" && value !== null && !Array.isArray(value)) {
         return value as ApiObject;
@@ -60,13 +56,6 @@ function asArray<T>(value: unknown): T[] {
     return Array.isArray(value) ? (value as T[]) : [];
 }
 
-/**
- * Handles responses such as:
- * { success: true, items: [...] }
- * { results: [...] }
- * { data: { items: [...] } }
- * { data: [...] }
- */
 function getResponseData(response: unknown): unknown {
     const root = asObject(response);
 
@@ -77,9 +66,6 @@ function getResponseData(response: unknown): unknown {
     return response;
 }
 
-// ==================== CART APIs ====================
-
-// GET /api/cart/
 export async function getCart(): Promise<Cart> {
     const response = await apiGet<unknown>("cart/");
 
@@ -142,7 +128,6 @@ export async function getCart(): Promise<Cart> {
     };
 }
 
-// PUT /api/cart/update/{cartId}/
 export async function updateCartItem(
     cartId: number | string,
     quantity: number,
@@ -157,7 +142,6 @@ export async function updateCartItem(
     );
 }
 
-// DELETE /api/cart/remove/{cartId}/
 export async function removeCartItem(
     cartId: number | string,
 ): Promise<unknown> {
@@ -166,9 +150,6 @@ export async function removeCartItem(
     );
 }
 
-// ==================== ADDRESS APIs ====================
-
-// GET /api/addresses/
 export async function getAddresses(): Promise<DeliveryAddress[]> {
     const response = await apiGet<unknown>("addresses/");
 
@@ -204,9 +185,6 @@ export async function getAddresses(): Promise<DeliveryAddress[]> {
     return [];
 }
 
-// ==================== ORDER APIs ====================
-
-// POST /api/orders/create/
 export async function createOrder(
     addressId: number,
 ): Promise<unknown> {
@@ -219,7 +197,6 @@ export async function createOrder(
     });
 }
 
-// POST /api/orders/razorpay/create/
 export async function createRazorpayOrder(
     orderId: number | string,
 ): Promise<unknown> {
@@ -228,7 +205,6 @@ export async function createRazorpayOrder(
     });
 }
 
-// POST /api/orders/verify-payment/
 export async function verifyPayment(payload: {
     order_id: number | string;
     razorpay_order_id: string;

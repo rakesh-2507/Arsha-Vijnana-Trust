@@ -28,7 +28,6 @@ function Navbar() {
 
   const [cartCount, setCartCount] = useState(0);
 
-  // Fetch cart count from the backend.
   const refreshCartCount = useCallback(async () => {
     if (!getAccessToken()) {
       setCartCount(0);
@@ -151,7 +150,7 @@ void Promise.resolve().then(() => refreshCartCount());
     <>
       <header className="sticky top-0 z-50 w-full border-b border-orange-100 bg-white/95 shadow-sm backdrop-blur-md">
         <nav className="mx-auto flex min-h-20 items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
+
           <Link
             to="/"
             onClick={closeMobileMenu}
@@ -165,7 +164,6 @@ void Promise.resolve().then(() => refreshCartCount());
             />
           </Link>
 
-          {/* Desktop navigation */}
           <div className="hidden items-center gap-1 lg:flex">
             <NavLink to="/" end className={navLinkClass}>
               Home
@@ -190,7 +188,6 @@ void Promise.resolve().then(() => refreshCartCount());
             </NavLink>
           </div>
 
-          {/* Desktop actions */}
           <div className="hidden items-center gap-3 lg:flex">
             {renderCartButton()}
 
@@ -232,7 +229,6 @@ void Promise.resolve().then(() => refreshCartCount());
             )}
           </div>
 
-          {/* Mobile cart and menu */}
           <div className="flex items-center gap-2 lg:hidden">
             {renderCartButton(true)}
 
@@ -268,7 +264,6 @@ void Promise.resolve().then(() => refreshCartCount());
           </div>
         </nav>
 
-        {/* Mobile navigation */}
         {menuOpen && (
           <div className="border-t border-orange-100 bg-white px-4 pb-5 pt-3 shadow-lg lg:hidden">
             <div className="mx-auto flex flex-col gap-1">
@@ -359,7 +354,6 @@ void Promise.resolve().then(() => refreshCartCount());
         )}
       </header>
 
-      {/* Login modal */}
       {activeModal === "login" && (
         <LoginModal
           onClose={() => setActiveModal(null)}
@@ -368,7 +362,6 @@ void Promise.resolve().then(() => refreshCartCount());
         />
       )}
 
-      {/* Registration modal */}
       {activeModal === "register" && (
         <RegisterModal
           onClose={() => setActiveModal(null)}

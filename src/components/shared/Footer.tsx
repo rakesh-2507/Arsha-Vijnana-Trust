@@ -6,11 +6,9 @@ const Footer = () => {
 
     return (
         <footer className="bg-gray-950 text-gray-300">
-            {/* Main footer */}
             <div className="mx-auto max-w-[1440px] px-5 pb-10 pt-14 sm:px-8 sm:pt-16 lg:px-12 lg:pt-20">
                 <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-12">
 
-                    {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-3">
                         <Link
                             to="/"
@@ -51,7 +49,6 @@ const Footer = () => {
                         </Link>
                     </div>
 
-                    {/* Quick links */}
                     <div className="lg:col-span-2">
                         <h3 className="text-sm font-bold tracking-widest text-white">
                             QUICK LINKS
@@ -79,7 +76,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Account */}
                     <div className="lg:col-span-2">
                         <h3 className="text-sm font-bold tracking-widest text-white">
                             MY ACCOUNT
@@ -106,7 +102,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Help */}
                     <div className="lg:col-span-2">
                         <h3 className="text-sm font-bold tracking-widest text-white">
                             HELP & SUPPORT
@@ -136,7 +131,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Contact details */}
                     <div className="lg:col-span-3">
                         <h3 className="text-sm font-bold tracking-widest text-white">
                             GET IN TOUCH
@@ -145,7 +139,6 @@ const Footer = () => {
                         <div className="mt-3 h-1 w-10 rounded-full bg-orange-500" />
 
                         <div className="mt-6 space-y-5">
-                            {/* Address */}
                             <div className="flex items-start gap-3">
                                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-500/10 text-orange-400">
                                     <svg
@@ -172,7 +165,6 @@ const Footer = () => {
                                 </p>
                             </div>
 
-                            {/* Email */}
                             <a
                                 href="mailto:info@email.com"
                                 className="group flex items-center gap-3 text-sm text-gray-400 transition hover:text-orange-400"
@@ -201,7 +193,6 @@ const Footer = () => {
                                 info@email.com
                             </a>
 
-                            {/* Phone */}
                             <a
                                 href="tel:+1234567890"
                                 className="group flex items-center gap-3 text-sm text-gray-400 transition hover:text-orange-400"
@@ -226,7 +217,6 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Bottom section */}
                 <div className="mt-12 border-t border-white/10 pt-6 sm:mt-16">
                     <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
                         <p className="text-xs leading-6 text-gray-500 sm:text-sm">

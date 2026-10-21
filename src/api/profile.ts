@@ -6,6 +6,3 @@ export interface Profile {
   phone?: string;
   [key: string]: unknown;
 }
-
-// Add profile fetch and update functions after confirming
-// the backend endpoints.

@@ -229,7 +229,6 @@ function OrdersPage() {
 
     return (
         <main className="min-h-screen bg-gray-50">
-            {/* Page heading */}
             <section className="border-b border-orange-100 bg-orange-50/70">
                 <div className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -325,7 +324,6 @@ function OrdersPage() {
                                         key={order.id}
                                         className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-200 hover:border-orange-200 hover:shadow-md"
                                     >
-                                        {/* Order header */}
                                         <div className="flex flex-col gap-4 border-b border-gray-100 bg-gray-50/70 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
                                             <div>
                                                 <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
@@ -362,7 +360,6 @@ function OrdersPage() {
                                             </div>
                                         </div>
 
-                                        {/* Order items */}
                                         <div className="p-4 sm:p-6">
                                             {items.length === 0 ? (
                                                 <p className="text-sm text-gray-500">

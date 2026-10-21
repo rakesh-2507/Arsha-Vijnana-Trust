@@ -173,7 +173,6 @@ function BookDetailsPage() {
                 setError("");
                 setLoading(false);
 
-                // Load reviews in the background.
                 void apiGet<unknown>(`reviews/book/${bookId}/`)
                     .then(getReviews)
                     .then((result) => {
@@ -185,7 +184,6 @@ function BookDetailsPage() {
                         console.error("Failed to load reviews:", err);
                     });
 
-                // Load only the first page for related books.
                 void getBooks({ page: 1 })
                     .then((response) => {
                         if (!cancelled) {

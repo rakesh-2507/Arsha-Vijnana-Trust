@@ -37,15 +37,12 @@ export interface BookQuery {
 
 const BOOKS_ENDPOINT = "books/";
 
-// Fetch one page of books.
 export const getBooks = (query?: BookQuery) =>
   apiGet<PaginatedResponse<Book>>(BOOKS_ENDPOINT, query);
 
-// Explicit helper for progressive page loading.
 export const getBooksPage = (page = 1) =>
   getBooks({ page });
 
-// Fetch all books only when a screen needs the complete collection.
 export const getAllBooks = async (): Promise<Book[]> => {
   const allBooks: Book[] = [];
   let pageNumber = 1;
@@ -65,12 +62,9 @@ export const getAllBooks = async (): Promise<Book[]> => {
   return allBooks;
 };
 
-// Fetch one book by ID.
 export const getBookById = (id: number | string) =>
   apiGet<Book>(`books/${id}/`);
 
-// Fetch categories represented on the first page.
-// This does not guarantee that every category is included.
 export const getBookCategories = async (): Promise<string[]> => {
   const response = await getBooks();
 

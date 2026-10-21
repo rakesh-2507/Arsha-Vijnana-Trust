@@ -38,10 +38,6 @@ export interface RegisterResponse {
   [key: string]: unknown;
 }
 
-/**
- * Log in with email and password.
- * Endpoint: POST /auth/login/
- */
 export const loginUser = async (
   payload: LoginPayload,
 ): Promise<LoginResponse> => {
@@ -58,20 +54,12 @@ export const loginUser = async (
   return result;
 };
 
-/**
- * Register a new user.
- * Endpoint: POST /auth/register/
- */
 export const registerUser = (
   payload: RegisterPayload,
 ): Promise<RegisterResponse> => {
   return apiPost<RegisterResponse>("auth/register/", payload);
 };
 
-/**
- * Log out by clearing locally stored authentication data.
- * No server logout endpoint was provided.
- */
 export const logoutUser = (): void => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
@@ -79,9 +67,6 @@ export const logoutUser = (): void => {
   localStorage.removeItem("user");
 };
 
-/**
- * Get the currently logged-in user from localStorage.
- */
 export const getCurrentUser = (): User | null => {
   const storedUser = localStorage.getItem("user");
 
@@ -97,17 +82,10 @@ export const getCurrentUser = (): User | null => {
   }
 };
 
-/**
- * Check whether an access token is stored.
- */
 export const isAuthenticated = (): boolean => {
   return Boolean(localStorage.getItem("access_token"));
 };
 
-/**
- * Optional helper to fetch the current user from the server.
- * Use only if your backend supports GET /auth/me/.
- */
 export const fetchCurrentUser = () => {
   return apiGet<User>("auth/me/");
 };

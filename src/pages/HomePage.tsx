@@ -135,7 +135,6 @@ function HomePage() {
                 setLoadingMore(false);
                 setError("");
 
-                // Fetch page 1 and display books immediately.
                 const firstPage = await getBooksPage(1);
 
                 if (cancelled) return;
@@ -143,7 +142,6 @@ function HomePage() {
                 setBooks(firstPage.results ?? []);
                 setLoading(false);
 
-                // Fetch remaining pages in the background.
                 if (firstPage.next) {
                     setLoadingMore(true);
                 }
@@ -217,7 +215,6 @@ function HomePage() {
         );
     };
 
-    // Group the books received so far by their actual API category.
     const groupedBooks = books.reduce<Record<string, Book[]>>(
         (groups, book) => {
             const category = book.category?.trim() || "Other";
@@ -257,7 +254,6 @@ function HomePage() {
 
     return (
         <main className="min-h-screen bg-white text-gray-800">
-            {/* Banner carousel */}
             <section
                 className="relative w-full overflow-hidden bg-gray-950"
                 aria-label="Featured book collections"
@@ -388,10 +384,8 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Books section */}
             <section className="py-12 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
-                    {/* Initial loading */}
                     {loading && books.length === 0 && (
                         <div className="flex min-h-64 flex-col items-center justify-center">
                             <div
@@ -405,7 +399,6 @@ function HomePage() {
                         </div>
                     )}
 
-                    {/* Error */}
                     {error && (
                         <div className="flex min-h-64 flex-col items-center justify-center text-center">
                             <p className="text-lg font-semibold text-red-600">
@@ -422,7 +415,6 @@ function HomePage() {
                         </div>
                     )}
 
-                    {/* Empty state */}
                     {!loading && !error && books.length === 0 && (
                         <div className="flex min-h-64 flex-col items-center justify-center text-center">
                             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-orange-600">
@@ -440,14 +432,12 @@ function HomePage() {
                         </div>
                     )}
 
-                    {/* Category sections */}
                     {!error &&
                         sortedCategories.map(({ category, books }) => (
                             <section
                                 key={category}
                                 className="mb-14 last:mb-0"
                             >
-                                {/* Category heading */}
                                 <div className="mb-7 flex items-end justify-between gap-4 border-b border-gray-200 pb-4">
                                     <div>
                                         <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-orange-600">
@@ -468,7 +458,6 @@ function HomePage() {
                                     </Link>
                                 </div>
 
-                                {/* Book grid */}
                                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-6 xl:gap-6">
                                     {books.slice(0, 6).map((book) => (
                                         <Link
@@ -476,7 +465,6 @@ function HomePage() {
                                             to={`/store/${book.id}`}
                                             className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white p-3 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-900/5 focus:outline-none focus:ring-2 focus:ring-orange-400 sm:p-4"
                                         >
-                                            {/* Book image */}
                                             <div className="relative flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gray-50 sm:h-56 lg:h-60">
                                                 {book.image ? (
                                                     <img
@@ -499,7 +487,6 @@ function HomePage() {
                                                 </span>
                                             </div>
 
-                                            {/* Book information */}
                                             <div className="flex flex-1 flex-col pt-4">
                                                 <h3 className="line-clamp-2 min-h-10 text-sm font-bold leading-5 text-gray-900 transition group-hover:text-orange-700 sm:text-base">
                                                     {book.title}
@@ -558,8 +545,6 @@ function HomePage() {
                             </section>
                         ))}
 
-
-                    {/* Background loading indicator */}
                     {loadingMore && !error && (
                         <div className="flex items-center justify-center gap-3 py-8 text-sm text-gray-500">
                             <span

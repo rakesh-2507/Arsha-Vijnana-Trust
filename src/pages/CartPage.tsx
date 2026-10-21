@@ -29,8 +29,6 @@ import {
 
 import type { CartItem, DeliveryAddress } from "../api/cart";
 
-// ==================== RAZORPAY TYPES ====================
-
 interface RazorpayResponse {
     razorpay_order_id: string;
     razorpay_payment_id: string;
@@ -69,8 +67,6 @@ declare global {
 interface ApiObject {
     [key: string]: unknown;
 }
-
-// ==================== HELPERS ====================
 
 function asObject(value: unknown): ApiObject {
     if (
@@ -175,8 +171,6 @@ function loadRazorpayScript(): Promise<boolean> {
     });
 }
 
-// ==================== CART PAGE ====================
-
 export default function CartPage() {
     const navigate = useNavigate();
 
@@ -194,8 +188,6 @@ export default function CartPage() {
 
     const [error, setError] = useState("");
     const [checkoutError, setCheckoutError] = useState("");
-
-    // ==================== LOAD CART ====================
 
     const loadCart = useCallback(async (showLoader = true) => {
         if (showLoader) {
@@ -233,7 +225,6 @@ useEffect(() => {
         void loadCart();
     });
 }, [navigate, loadCart]);
-    // ==================== CART TOTALS ====================
 
     const totalQuantity = useMemo(
         () =>
@@ -248,8 +239,6 @@ useEffect(() => {
         () => items.reduce((sum, item) => sum + itemSubtotal(item), 0),
         [items],
     );
-
-    // ==================== UPDATE QUANTITY ====================
 
     const changeQuantity = async (
         item: CartItem,
@@ -276,8 +265,6 @@ useEffect(() => {
             setBusyItemId(null);
         }
     };
-
-    // ==================== REMOVE CART ITEM ====================
 
     const deleteItem = async (item: CartItem): Promise<void> => {
         if (busyItemId !== null) {
@@ -309,8 +296,6 @@ useEffect(() => {
             setBusyItemId(null);
         }
     };
-
-    // ==================== SELECT DELIVERY ADDRESS ====================
 
     const openCheckout = async (): Promise<void> => {
         setCheckoutError("");
@@ -351,8 +336,6 @@ useEffect(() => {
         }
     };
 
-    // ==================== PAYMENT ====================
-
     const startPayment = async (): Promise<void> => {
         if (selectedAddressId === null) {
             setCheckoutError("Please select a delivery address.");
@@ -367,7 +350,6 @@ useEffect(() => {
         setCheckoutError("");
 
         try {
-            // 1. Create the order.
             const createdOrder = await createOrder(selectedAddressId);
             const orderId = getOrderId(createdOrder);
 
@@ -377,7 +359,6 @@ useEffect(() => {
                 );
             }
 
-            // 2. Create the Razorpay payment order.
             const razorpayResponse = await createRazorpayOrder(orderId);
             const root = asObject(razorpayResponse);
             const data = asObject(root.data);
@@ -408,7 +389,6 @@ useEffect(() => {
                 );
             }
 
-            // 3. Open Razorpay checkout.
             const paymentOptions: RazorpayOptions = {
                 key,
                 amount: Number(amount),
@@ -435,7 +415,6 @@ useEffect(() => {
                 },
                 handler: async (payment: RazorpayResponse) => {
                     try {
-                        // 4. Verify payment on the backend.
                         await verifyPayment({
                             order_id: orderId,
                             razorpay_order_id: payment.razorpay_order_id,
@@ -481,7 +460,6 @@ useEffect(() => {
         }
     };
 
-    // ==================== RENDER ====================
 
     return (
         <main className="min-h-screen bg-orange-50/30 py-8 text-gray-800 sm:py-12">
@@ -531,7 +509,6 @@ useEffect(() => {
                     </div>
                 </div>
 
-                {/* Cart error */}
                 {error && (
                     <div
                         role="alert"
@@ -555,7 +532,6 @@ useEffect(() => {
                     </div>
                 )}
 
-                {/* Loading */}
                 {loading ? (
                     <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-orange-100 bg-white shadow-sm">
                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-50">
@@ -573,7 +549,6 @@ useEffect(() => {
                         </p>
                     </div>
                 ) : items.length === 0 ? (
-                    /* Empty cart */
                     <div className="overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm">
                         <div className="h-2 bg-gradient-to-r from-orange-300 via-orange-500 to-orange-300" />
 
@@ -614,7 +589,6 @@ useEffect(() => {
                         </div>
                     </div>
                 ) : (
-                    /* Cart items and order summary */
                     <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-3 lg:gap-8">
                         <section className="space-y-4 lg:col-span-2">
                             <div className="flex items-center justify-between px-1">
@@ -642,7 +616,6 @@ useEffect(() => {
                                         className="group overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-4 shadow-sm transition duration-200 hover:border-orange-200 hover:shadow-md sm:p-5"
                                     >
                                         <div className="flex gap-4 sm:gap-5">
-                                            {/* Book cover */}
                                             <Link
                                                 to={`/store/${item.book_id}`}
                                                 aria-label={`View ${item.title ?? "book"} details`}
@@ -666,7 +639,6 @@ useEffect(() => {
                                                 )}
                                             </Link>
 
-                                            {/* Book details */}
                                             <div className="flex min-w-0 flex-1 flex-col">
                                                 <div className="flex items-start justify-between gap-3">
                                                     <div className="min-w-0">
@@ -730,7 +702,6 @@ useEffect(() => {
                                                 </div>
 
                                                 <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-4">
-                                                    {/* Quantity controls */}
                                                     <div className="inline-flex items-center rounded-xl border border-gray-200 bg-gray-50 p-1">
                                                         <button
                                                             type="button"
@@ -807,7 +778,6 @@ useEffect(() => {
                             </Link>
                         </section>
 
-                        {/* Order summary */}
                         <aside className="lg:sticky lg:top-24">
                             <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
                                 <div className="border-b border-gray-100 bg-gradient-to-r from-orange-50 to-white px-5 py-5 sm:px-6">
@@ -925,8 +895,6 @@ useEffect(() => {
                 )}
             </div>
 
-            {/* ==================== DELIVERY ADDRESS MODAL ==================== */}
-
             {addressModalOpen && (
                 <div
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-950/60 p-3 backdrop-blur-sm sm:p-5"
@@ -947,7 +915,6 @@ useEffect(() => {
                         aria-labelledby="address-modal-title"
                         className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl shadow-black/20 sm:rounded-3xl"
                     >
-                        {/* Modal heading */}
                         <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-orange-100 bg-white px-5 py-5 sm:px-7 sm:py-6">
                             <div className="flex items-start gap-3">
                                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-700">
@@ -1149,7 +1116,6 @@ useEffect(() => {
                             )}
                         </div>
 
-                        {/* Modal footer */}
                         <div className="sticky bottom-0 flex flex-col-reverse gap-3 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row sm:justify-end sm:px-7 sm:py-5">
                             <button
                                 type="button"

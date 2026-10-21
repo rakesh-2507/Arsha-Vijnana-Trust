@@ -7,5 +7,3 @@ export interface Order {
   [key: string]: unknown;
 }
 
-// Add order history, order detail and checkout functions
-// after confirming the backend endpoints.
