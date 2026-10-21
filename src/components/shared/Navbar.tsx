@@ -114,7 +114,7 @@ function Navbar() {
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `rounded-lg px-3 py-2 text-base tracking-widest font-medium transition ${isActive
-      ? "bg-orange-50 text-orange-700 text-lg"
+      ? "bg-orange-50 text-orange-700 text-lg underline underline-offset-[4px] decoration-2"
       : "text-gray-900 hover:bg-orange-50 hover:text-orange-600"
     }`;
 
